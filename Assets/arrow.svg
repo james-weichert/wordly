@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="500" height="500" viewBox="0, 0, 100, 100">
+  <defs>
+    <clipPath id="Clip_1">
+      <path d="M18.453,28.619 L81.547,28.619 L81.547,71.381 L18.453,71.381 z M78.547,33.619 L21.453,33.619 L50,66.381 L78.547,33.619 z"/>
+    </clipPath>
+    <filter id="Shadow_2">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feFlood flood-color="#000000"/>
+      <feComposite in2="offsetblur" operator="in"/>
+    </filter>
+  </defs>
+  <g id="Layer_1">
+    <g>
+      <path d="M78.547,33.619 L50,66.381 L21.453,33.619 L78.547,33.619 z" clip-path="url(#Clip_1)" filter="url(#Shadow_2)" fill="rgba(0,0,0,0.15)"/>
+      <path d="M78.547,33.619 L50,66.381 L21.453,33.619 z" fill="#FFFFFF"/>
+    </g>
+  </g>
+</svg>

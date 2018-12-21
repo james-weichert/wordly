@@ -1,0 +1,405 @@
+<!Doctype html>
+<html>
+    <head>
+        <title>Welcome to Wordly</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="Assets/dots.ico"/>
+    <!--<link rel="shortcut icon" type="image/png" href="flagFavicon.ico"/>-->
+        
+    <meta charset="utf-8"/>
+
+    <script type="text/javascript">
+
+       function onLoad() {
+           var wHeight = window.innerHeight;
+           document.body.offsetHeight = document.body.offsetHeight - (400);
+       } 
+       
+        var secondY;
+        var textTwo = 0;
+
+        function onScroll() {
+          var firstY = window.scrollY;
+          
+        setTimeout(function () {
+            secondY = window.scrollY;
+        }, 100);
+
+       //alert(firstY-secondY);
+
+            if(firstY-secondY < 0) {
+                document.getElementById('phone').style.marginRight = "-1vw";
+                //document.getElementById('secondText').style.marginTop = "20vh";
+            } else if(firstY-secondY > 0) {
+                document.getElementById('phone').style.marginRight = "2vw";
+                
+            }
+            
+            if(firstY-secondY > 0 && textTwo < 2) {
+                document.getElementById('secondText').style.marginTop = "10vh";
+                textTwo++;
+            } else if (firstY-secondY < 0) {
+                document.getElementById('secondText').style.marginTop = "20vh";
+                //textTwo++;
+            }
+
+        
+
+            if(firstY > (800)) {
+                if(firstY - secondY < 0) {
+                    document.getElementById('germanFlag').style.marginBottom = "-4vh";
+                    document.getElementById('frenchFlag').style.marginBottom = "-4vh";
+                    document.getElementById('spanishFlag').style.marginBottom = "-4vh";
+                } else if (firstY-secondY > 0) {
+                    document.getElementById('germanFlag').style.marginBottom = "-24vh";
+                    document.getElementById('frenchFlag').style.marginBottom = "-10vh";
+                    document.getElementById('spanishFlag').style.marginBottom = "-8vh";   
+                }
+            }
+           // document.getElementById('phone').style.marginRight = "5vw";
+        }
+        function scrollClick(a) {
+
+            document.getElementById(a).scrollIntoView({ 
+                behavior: 'smooth'
+            });
+            
+        }
+        function goToPage() {
+            document.body.style.opacity = "0";
+            setTimeout(function () {
+                window.location = "index.html";
+            }, 1000);
+        }
+    </script>
+
+<style type="text/css">
+/*Red - #D16666*/
+/*Green - #3BC66E*/
+/*Blue - #357DED*/
+
+body {
+	font-family: 'Ubuntu', sans-serif;
+    color: #FFF;
+    background-color: #FFF;
+
+    overflow-x: hidden;
+    width: 100vw;
+
+    -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;  
+
+    transition: opacity 1s ease;
+
+}
+#firstSlide {
+    position: absolute;
+    width: 98vw;
+    height: 98vh;
+    background-color: #80deea;
+    top: 2%;
+    left: 1%;
+
+}
+#title {
+    position: relative;
+    height: 60vh;
+    top: 50%;
+    margin-top: -35vh;
+    text-align: center;
+    z-index: 20;
+}
+#secondSlide {
+    position: absolute;
+    width: 98vw;
+    height: 98vh;
+    top: 102%;
+    left: 1%;
+    background-color: rgba(209, 102, 102, 0.8);
+    z-index: 4;
+}
+#whiteSlide {
+    position: absolute;
+    width: 100vw;
+    height: 40vh;
+    top: 200%;
+    left: 0;
+    background-color: #FFF;
+    z-index: 6;
+}
+#whiteSlideTwo {
+    position: absolute;
+    width: 100vw;
+    height: 25vh;
+    top: 300%;
+    left: 0;
+    background-color: #FFF;
+    z-index: 12;
+
+    color: #6c6c6c;
+    text-align: center;
+}
+#thirdSlide {
+    position: absolute;
+    width: 98vw;
+    height: 98vh;
+    top: 202%;
+    left: 1%;
+    background-color: rgba(59, 198, 110, 0.8);
+    z-index: 7;
+}
+#logo {
+    width: 40%;
+}
+h2 {
+    font-size: 1.5em;
+    font-weight: 300;
+}
+#optionTable {
+	display: inline-block;
+	height: 8vh;
+    border-collapse: collapse;
+}
+#optionTable td {
+	width: 20vh;
+}
+#optionTable p {
+	width: 15vh;
+    line-height: 1.5em;
+	margin-left: auto;
+	margin-right: auto;
+}
+#startTd {
+	border-top-left-radius: 0.4vw;
+	border-bottom-left-radius: 0.4vw;
+	background-color: rgba(209, 102, 102, 0.9);
+	color: #FFF;
+}
+#startTd:hover {
+	background-color: #D16666;
+    cursor: pointer;
+}
+#learnMoreTd {
+    border-top-right-radius:  0.4vw;
+    border-bottom-right-radius: 0.4vw;
+    background-color: rgba(53, 124, 237, 0.9);
+	color: #FFF;
+}
+#learnMoreTd:hover {
+    background-color: #357DED;
+    cursor: pointer;
+}
+#phone {
+    
+    transform: rotate(5deg);
+    float: right;
+    margin-right: -1vw;
+    bottom: 0;
+    width: 35vw;
+
+    transition: margin 2s ease; 
+}
+#phoneDiv {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 55%;
+}
+#secondText {
+    float: right;
+    margin-top: 20vh;
+    margin-right: 5vw;
+    border-radius: 0.7em;
+    box-shadow: rgba(0, 0, 0, 0.3) 1vw 1.5vh;
+    width: 50vw;
+    height: 80vh;
+    background-color: #FFF;
+    color: #6c6c6c;
+    text-align: center;
+    padding-top: 5vh; 
+
+    transition: margin 2s ease; 
+}
+#secondTextText {
+    padding-left: 5vw;
+    padding-right: 5vw;
+    line-height: 1.5em;
+}
+#secondTextText p {
+    text-align: left;
+}
+#thirdText {
+    float: left;
+    margin-top: 15vh;
+    margin-left: 5vw;
+    border-radius: 0.7em;
+    box-shadow: rgba(0, 0, 0, 0.3) 1vw 1.5vh;
+    width: 50vw;
+    height: 80vh;
+    background-color: #FFF;
+    color: #6c6c6c;
+    text-align: center;
+    padding-top: 5vh; 
+
+    transition: margin 2s ease; 
+}
+#thirdTextText {
+    padding-left: 5vw;
+    padding-right: 5vw;
+    line-height: 1.5em;
+}
+#thirdTextText p {
+    text-align: left;
+}
+#arrows {
+    z-index: 5;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 5vw;
+    margin-left: -2.5vw;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+#arrows:hover {
+    opacity: 0.6;
+}
+#macbook {
+    position: absolute;
+    width: 55vw;
+    float: left;
+    margin-bottom: -8vh;
+    margin-left: -1vw;
+    bottom: -100%;
+    z-index: 10;
+}
+#germanFlag {
+    position: absolute;
+    height: 80vh;
+    float: right;
+    bottom: -200%;
+    right: 0;
+    margin-right: 4vw;
+    margin-bottom: -4vh;
+    z-index: 10;
+
+    transition: margin 4s ease;
+}
+#frenchFlag {
+    position: absolute;
+    height: 80vh;
+    float: right;
+    bottom: -208%;
+    right: 0;
+    margin-right: -3vw;
+    margin-bottom: -4vh;
+    z-index: 10;
+
+    transition: margin 4s ease;
+}
+#spanishFlag {
+    position: absolute;
+    height: 80vh;
+    float: right;
+    bottom: -216%;
+    right: 0;
+    margin-right: -10vw;
+    margin-bottom: -4vh;
+    z-index: 10;
+
+    transition: margin 4s ease;
+}
+#brownArrow {
+    width: 5vw;
+}
+#brownArrow:hover {
+    opacity:  0.6;
+}
+#footer {
+    position: absolute;
+    width: 30vw;
+    left: 50%;
+    margin-left: -15vw;
+    bottom: 15%;
+}
+
+</style>
+
+    </head>
+    <body onscroll="onScroll()" onload="onLoad()">
+        <div id="firstSlide">
+        <div id="title">
+            <img id="logo" src="Assets/wordlyLogoWhite.svg"/>
+            <h2>Quick, customizable, hassle-free language learning.</h2>
+            <br />
+            <table id="optionTable">
+                <tr>
+                    <td id="startTd" onclick="goToPage()">
+                        <p>Get Started</p>
+                    </td>
+                    <td id="learnMoreTd">
+                        <p>Learn More</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <img id="arrows" src="Assets/arrow.svg" onclick="scrollClick('secondSlide')"/>
+        </div>
+        <div id="phoneDiv">
+                <img id="phone" src="Assets/WordlyMockup.png"/>
+        </div>
+        <div id="secondSlide">
+            <div id="secondText">
+                <div id="secondTextText">
+                        <h1>Welcome to Wordly</h1>
+                       
+                        <p>Wordly is a language-learning website that takes the time and hassle out of practicing a second language. 
+                            With Wordly, it takes as little as 5 seconds to practice, making it ideal for learning on the go; 
+                            whenever you have some time, open Wordly and strengthen your knowledge in Spanish, French or German.</p>
+                        <p>From beginner to expert, Wordly allows you to customize your learning experience to your proficiency level. 
+                            Wordly currently supports practice for nouns, verbs, and adjectives to increase your proficiency in the language of your choice.</p>
+                        <p>Personalize your word feed by selecting the languages and proficiency levels you want to practice. 
+                            Your Wordly Feed also allows you to strengthen your weaknesses by saving words to your word bank for later practice.
+                            And by logging into your Wordly account, you can access your word feed or word bank from any device.</p>
+                        <p>Wordly gives you the power of quick, free, customizable, and hassle-free language learning at the touch of a button. </p>
+                        <img src="Assets/brownArrow.svg" id="brownArrow" onclick="scrollClick('thirdSlide')"/>
+                </div>
+                
+            </div>
+            
+        </div>
+        <img id="macbook" src="Assets/WordlyMacbook.png"/>
+        <div id="whiteSlide"></div>
+        <div id="thirdSlide">
+                <div id="thirdText">
+                        <div id="thirdTextText">
+                                <h1>About Wordly</h1>
+                                <p>Wordly was created in 2018 by high school student James Weichert. 
+                                    is a language-learning website that takes the time and hassle out of practicing a second language. 
+                                    With Wordly, it takes as little as 5 seconds to practice, making it ideal for learning on the go; 
+                                    whenever you have some time, open Wordly and strengthen your knowledge in Spanish, French or German.</p>
+                                <p>Currently, Wordly supports German, Spanish, and French with a database of over 3,000 nouns, verbs, and adjectives. 
+                                    Future updates will include an expanded library of words, support for phrases, and more languages like Dutch, Portugese, 
+                                    Italian, Arabic, Chinese, and Russian.</p>
+                                    <p>For inquiries, email info.wordly@gmail.com</p>
+                                <p>Wordly by James Weichert. All Rights Reserved.</p>
+                        </div>
+                        
+                    </div>
+                   
+        </div>
+        
+        <img id="frenchFlag" src="Assets/frenchFlag-01.svg"/> 
+        <img id="spanishFlag" src="Assets/spanishFlag-01.svg"/>
+        <img id="germanFlag" src="Assets/germanFlag-01.svg"/>  
+        <div id="whiteSlideTwo">
+            <div id="footer">
+            <p>Top | Learn More | About</p>
+            <p>Wordly by James Weichert. All Rights Reserved.</p>
+        </div>
+        </div>
+    </body>
+</html>

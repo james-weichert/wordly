@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Wordly</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="Assets/dots.ico"/>
+
+    <meta charset="utf-8"/>
+
+    <script type="text/javascript">
+
+        var germanPractice = "*";
+        var spanishPractice = "*";
+        var frenchPractice = "*";
+
+        var spanishArray = new Array;
+        var germanArray = new Array;
+        var frenchArray = new Array;
+
+        var wordIsSet = false;
+
+        var inputWord = "???";
+        var inputMeaning = "???";
+
+        var proficiency = 2;
+        var language = 2;
+        var barColor = 0;
+        var returning = "false";
+
+        function loadAtStart() {
+
+            returning = localStorage.getItem('returnStatus');
+
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+                document.getElementById('logo').style.width = "45vw";
+
+                var pArray = document.getElementsByClassName('paragraph');
+                for(var i = 0; i < pArray.length; i++) {
+                    pArray[i].style.fontSize = "1.8em";
+                }
+                document.getElementById('addToWordBank').style.fontSize = "1.5em";
+                var hTwo = document.getElementsByClassName('hTwo');
+                for(var i = 0; i < hTwo.length; i++) {
+                    hTwo[i].style.fontSize = "2.5em";
+                }
+
+                var hOne = document.getElementsByClassName('hOne');
+                for(var i = 0; i < hOne.length; i++) {
+                    hOne[i].style.fontSize = "2.5em";
+                }
+
+                document.getElementById('main').style.width = "80vw";
+                document.getElementById('field').style.width = "70vw";
+                document.getElementById('languageTable').style.width = "60vw";
+
+                document.getElementById('field').style.borderWidth = "0.8em";
+                document.getElementById('field').style.padding = "3vw";
+            }
+
+            if(returning == "false") {
+                localStorage.setItem('returnStatus', 'true');
+                document.getElementById('rightSide').style.visibility = "visible";
+            } else {
+                /*spanishPractice = localStorage.getItem('spanishPractice');
+                germanPractice = localStorage.getItem('germanPractice');
+                frenchPractice = localStorage.getItem('frenchPractice');
+
+                if(spanishPractice == null) {
+                    spanishPractice = "*";
+                }
+                if(germanPractice == null) {
+                    germanPractice = "*";
+                }
+                if(frenchPractice == null) {
+                    frenchPractice = "*";
+                }
+                */
+            }
+
+            barColor = localStorage.getItem("barColor");
+            
+            if(barColor == 0) {
+                document.getElementById('centerBar').style.color = "#D16666";
+            } else if (barColor == 1) {
+                document.getElementById('centerBar').style.color = "#3BC66E";
+            } else if (barColor == 2) {
+                document.getElementById('centerBar').style.color = "#357DED";
+            }
+
+            barColor++;
+            if (barColor == 3) {
+                barColor = 0;
+            }
+
+            localStorage.setItem("barColor", barColor);
+
+
+            if(window.innerWidth < 700) {
+                document.getElementById('main').style.width = "80%";
+                document.getElementById('field').style.width = "90%";
+
+                document.getElementById('header').style.width = "70%";
+                document.getElementById('logo').style.width = "40vw";
+
+                document.getElementById('rightSide').style.visibility = "hidden";
+            } else if ((window.innerWidth)/(window.innerHeight)>1.75) {
+                document.getElementById('logo').style.width = "14vw";
+                document.getElementById('footer').style.visibility = "hidden";
+            }
+            else {
+                document.getElementById('footer').style.visibility = "visible";
+            }
+        }
+
+        function goToWordBank() {
+                document.getElementById('field').innerHTML = "<p class='paragraph'>Click 'Practice' to strengthen your skills.</p><h1 id='wordSpot' class='hOne'>???</h1><h1 id='meaningSpot' class='hOne'>???</h1><div id='practiceButton' onclick='pullFromWordBank()'><p id='practice'>Practice</p></div><div id='difficulties'></div>";
+
+                setWordBank();
+        }
+
+        function goToHome() {
+                document.getElementById('field').innerHTML = "<p class='paragraph'>Click 'Practice' to reveal a new <span id='languageWord'>German</span> word.</p><p class='smallP' id='addToWordBank' onclick='addToWordBank()'>Add Word to Word Bank.</p><h1 id='wordSpot' class='hOne'>???</h1><h1 id='meaningSpot' class='hOne'>???</h1><div id='practiceButton' onclick='buttonPressed()'><p id='practice'>Practice</p></div><div id='difficulties'><p class='paragraph'>Proficiency: Beginner <img id='redCircle' class='proficiencyCircles' onclick='changeProficiency(1)' src='Assets/redCircle.svg'/> Intermediate <img id='greenCircle' class='proficiencyCircles' onclick='changeProficiency(2)' src='Assets/greenCheck.svg'/> Advanced <img id='blueCircle' class='proficiencyCircles' onclick='changeProficiency(3)' src='Assets/blueCircle.svg'/></p></div>";
+        }
+
+        function addToWordBank() {
+            var word = document.getElementById('wordSpot').innerHTML;
+            var meaning = document.getElementById('meaningSpot').innerHTML;
+
+            var addedWord = word.concat("*");
+            var addedMeaning = meaning.concat("*");
+        
+            if(language == 1) {
+                spanishPractice = spanishPractice.concat(addedWord);
+                spanishPractice = spanishPractice.concat(addedMeaning);
+
+                localStorage.setItem('spanishPractice', spanishPractice);
+            } else if (language == 2) {
+                germanPractice = germanPractice.concat(addedWord);
+                germanPractice = germanPractice.concat(addedMeaning);
+
+                localStorage.setItem('germanPractice', germanPractice);
+            } else if (language == 3) {
+                frenchPractice = frenchPractice.concat(addedWord);
+                frenchPractice = frenchPractice.concat(addedMeaning);
+
+                localStorage.setItem('frenchPractice', frenchPractice);
+            }
+
+        }
+
+        function setWordBank() {
+            spanishArray = [];
+            germanArray = [];
+            frenchArray = [];
+
+            var arrayCounter = 0;
+
+            if(spanishPractice != null) {
+                for(var i = 1; i < spanishPractice.length; i++) {
+                if(spanishPractice.substr(i,1) != "*") {
+                    spanishArray[arrayCounter] = spanishArray[arrayCounter] + spanishPractice.substr(i,1);
+                } else {
+                    arrayCounter = arrayCounter + 1;
+                }
+                }
+            }
+            if(germanPractice != null) {
+                for(var i = 1; i < germanPractice.length; i++) {
+                if(germanPractice.substr(i,1) != "*") {
+                    germanArray[arrayCounter] = germanArray[arrayCounter] + germanPractice.substr(i,1);
+                } else {
+                    arrayCounter = arrayCounter + 1;
+                }
+                }
+            }
+            if(frenchPractice != null) {
+                for(var i = 1; i < frenchPractice.length; i++) {
+                if(frenchPractice.substr(i,1) != "*") {
+                    frenchArray[arrayCounter] = frenchArray[arrayCounter] + frenchPractice.substr(i,1);
+                } else {
+                    arrayCounter = arrayCounter + 1;
+                }
+                }
+            }
+
+        }
+
+        function pullFromWordBank() {
+            var spanishLength = spanishArray.length;
+            var germanLength = germanArray.length;
+            var frenchLength = frenchArray.length;
+
+            var inputWord;
+            var inputMeaning;
+            
+            if(language == 1) {
+            
+                do {
+                    var rand = Math.floor(Math.random() * (spanishLength));
+                } while (rand % 2 != 0)
+
+                inputWord = spanishArray[rand];
+                inputMeaning = spanishArray[(rand) + 1];
+
+                inputWord = inputWord.substr(9);
+                inputMeaning = inputMeaning.substr(9);
+            } else if (language == 2) {
+
+                do {
+                    var rand = Math.floor(Math.random() * (germanLength));
+                } while (rand % 2 != 0)
+                
+                inputWord = germanArray[rand];
+                inputMeaning = germanArray[(rand) + 1];
+
+                inputWord = inputWord.substr(9);
+                inputMeaning = inputMeaning.substr(9);
+            } else if (language == 3) {
+
+                do {
+                    var rand = Math.floor(Math.random() * (frenchLength));
+                } while (rand % 2 != 0)
+
+                inputWord = frenchArray[rand];
+                inputMeaning = frenchArray[(rand) + 1];
+
+                inputWord = inputWord.substr(9);
+                inputMeaning = inputMeaning.substr(9);
+            }
+
+        
+
+            document.getElementById('wordSpot').innerHTML = inputWord;
+            document.getElementById('meaningSpot').innerHTML = inputMeaning;
+            
+        }
+
+    </script>
+
+    <style type="text/css">
+
+        /*----COLORS----*/
+        /*Red - #D16666*/
+        /*Green - #3BC66E*/
+        /*Blue - #357DED*/
+
+        @font-face {
+        font-family: "myFont";
+        src: url('Font/Ubuntu-Regular.ttf');
+        }
+
+        html, body {margin: 0; height: 100%; overflow: hidden}
+        body {
+            
+            overflow-x: hidden;
+            overflow-y: hidden;
+            font-family: "myFont",'Ubuntu', sans-serif;
+            color: #6C6C6C;
+
+            -webkit-user-select: none;  
+            -moz-user-select: none;    
+            -ms-user-select: none;      
+            user-select: none; 
+            z-index: 1;
+        }
+        p {
+            -webkit-user-select: none;  
+            -moz-user-select: none;    
+            -ms-user-select: none;      
+            user-select: none; 
+        }
+        #header {
+            text-align: center;
+
+            width: 50%;
+            margin: 0 auto;
+            margin-top: 1vh;
+        }
+        #logo {
+            
+            width: 20vw;
+        }
+        h2 {
+            font-size: 1.25em;
+        }
+        #feedLink:hover {
+            color: rgba(209, 102, 102, 0.9);
+        }
+        #bankLink:hover {
+            color: rgba(53, 124, 237, 0.8);
+        }
+        #centerBar {
+            color: #3BC66E;
+        }
+        #main {
+            width: 60%;
+            margin: 0 auto;
+            text-align: center;
+        }
+        #field {
+            width: 60%;
+            margin: 0 auto;
+
+            border-radius: 0.2vw;
+            box-shadow: 0px 0.5px 2.5px  #CCC;
+
+            border-color:rgba(53, 124, 237, 0.6);
+            border-style: solid;
+            border-width: 0.5em;
+            border-radius: 0.5em;
+
+            padding: 1vw;
+
+            -webkit-user-select: text;  
+            -moz-user-select: text;    
+            -ms-user-select: text;      
+            user-select: text
+        }
+
+        #practiceButton {
+            color: #FFF;
+            background-color: #3BC66E;
+            display: inline-block;
+
+            border-radius: 0.4vw;
+
+            z-index: 5;
+
+            font-size: 4vh;
+            line-height: 5vh;
+            font-weight: 300;
+
+            -webkit-box-shadow: 1px 1px 2px #aaa;
+            -moz-box-shadow: 1px 1px 2px #aaa;
+            box-shadow: 1px 1px 2px #aaa;
+
+            -webkit-user-select: none;  
+            -moz-user-select: none;    
+            -ms-user-select: none;      
+            user-select: none; 
+        }
+        #practiceButton:hover {
+            background: rgb(57, 170, 99);
+
+            -webkit-box-shadow: inset 0px 0px 4px #aaa;
+            -moz-box-shadow: inset 0px 0px 4px #aaa;
+            box-shadow: inset 0px 0px 4px #aaa;
+
+            cursor: pointer;
+        }
+        #practice {
+            padding-left: 2vw;
+            padding-right: 2vw;
+            line-height: 0.5vh;
+        }
+        #difficulties {
+            font-weight: 300;
+        }
+        .proficiencyCircles {
+            height: 2vh;
+        }
+
+        #languageTable {
+            display: inline-block;
+            height: 5vh;
+            border-collapse: collapse;
+        }
+        #languageTable td {
+            width: 15vh;
+        }
+        #languageTable p {
+            width: 10vh;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #tdSpanish {
+            border-top-left-radius: 0.4vw;
+            border-bottom-left-radius: 0.4vw;
+            background-color: rgba(209, 102, 102, 0.9);
+            color: #FFF;
+        }
+        #tdSpanish:hover {
+            background-color: #D16666;
+            cursor: pointer;
+        }
+        #tdFrench {
+            background-color:rgba(59, 198, 110,0.9);
+            color: #FFF;
+        }
+        #tdFrench:hover {
+            background-color:#3BC66E;
+            cursor: pointer;
+        }
+        #tdGerman {
+            border-top-right-radius:  0.4vw;
+            border-bottom-right-radius: 0.4vw;
+            background-color: rgba(53, 124, 237, 0.9);
+            color: #FFF;
+        }
+        #tdGerman:hover {
+            background-color: #357DED;
+            cursor: pointer;
+        }
+
+        #rightSide {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            visibility: hidden;
+        }
+        #fox {
+            width: 15vw;
+            margin-right: 2vw;
+            margin-bottom: -1.5vh;
+        }
+        #dialogueBox {
+            width: 13vw;
+            margin-bottom: 30vh;
+            margin-right: -2vw;
+        }
+
+        #footer {
+            visibility: hidden;
+            color: #6C6C6C;
+            position: absolute;
+            width: 60vw;
+            left: 0;
+            margin-left: 20vw;
+            bottom: 0;
+            text-align: center;
+            font-size: 2vh;
+            font-weight: 300;
+            z-index: -1;
+        }
+
+        #wordSpot {
+            -webkit-transition: opacity 0.5s; /* Safari */
+                    transition: opacity 0.5s;
+        }
+        #meaningSpot {
+            -webkit-transition: opacity 0.5s; /* Safari */
+                    transition: opacity 0.5s;
+        }
+
+        .smallP {
+            font-size: 0.7em;
+        }
+        .smallP:hover {
+            color: rgba(59, 198, 110, 0.8);
+        }
+        .smallP:active {
+            color: #3BC66E;
+        }
+        #addToWordBank {
+            width: 40%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    </style>
+
+</head>
+
+<body onload="loadAtStart()">
+    <div id="header">
+        <img id="logo" src="Assets/wordlyLogoPNG.png"/>
+        <h2 class="hTwo"><span id="feedLink" onclick="goToHome()">Your Feed</span> <span id="centerBar">|</span> <span id="bankLink" onclick="goToWordBank()">Word Bank</span></h2>
+    </div>
+    
+    <div id="main">
+        <h1 class="hOne">Your Feed:</h1>
+        <div id="field">
+            <p class="paragraph">Click 'Practice' to reveal a new <span id="languageWord">German</span> word.</p>
+            <p class="smallP" id="addToWordBank" onclick="addToWordBank()">Add Word to Word Bank.</p>
+            <h1 id="wordSpot" class="hOne">???</h1>
+            <h1 id="meaningSpot" class="hOne">???</h1>
+            <div id="practiceButton" onclick="buttonPressed()"><p id="practice">Practice</p></div>
+            <div id="difficulties">
+                <p class="paragraph">Proficiency: Beginner <img id="redCircle" class="proficiencyCircles" onclick="changeProficiency(1)" src="Assets/redCircle.svg"/> Intermediate <img id="greenCircle" class="proficiencyCircles" onclick="changeProficiency(2)" src="Assets/greenCheck.svg"/> Advanced <img id="blueCircle" class="proficiencyCircles" onclick="changeProficiency(3)" src="Assets/blueCircle.svg"/></p>
+            </div>
+        </div>
+        <br />
+        <div id="languages">
+            <table id="languageTable">
+                <tr>
+                    <td id="tdSpanish" onclick="changeLanguage(1)">
+                        <p>Spanish</p>
+                    </td>
+                    <td id="tdFrench" onclick="changeLanguage(3)">
+                        <p>French</p>
+                    </td>
+                    <td id="tdGerman" onclick="changeLanguage(2)">
+                        <p>German</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="rightSide" onclick="dialogueChange()">
+        <img id="dialogueBox" src="Assets/welcome.svg"/>
+        <img id="fox" src="Assets/FoxAlt.svg"/>
+    </div>
+
+    <div id="footer">
+        <p>Home | About</p>
+        <p>Wordly by James Weichert. All Rights Reserved.</p>
+    </div>
+   
+    <script type="text/javascript">
+
+        function changeProficiency(a) {
+            if(a == 1) {
+                document.getElementById('redCircle').src = "Assets/redCheck.svg";
+                document.getElementById('greenCircle').src = "Assets/greenCircle.svg";
+                document.getElementById('blueCircle').src = "Assets/blueCircle.svg";
+
+                proficiency = 1;
+            } else if (a == 2) {
+                document.getElementById('greenCircle').src = "Assets/greenCheck.svg";
+                document.getElementById('redCircle').src = "Assets/redCircle.svg";
+                document.getElementById('blueCircle').src = "Assets/blueCircle.svg";
+
+                proficiency = 2;
+            } else if (a == 3) {
+                document.getElementById('blueCircle').src = "Assets/blueCheck.svg";
+                document.getElementById('greenCircle').src = "Assets/greenCircle.svg";
+                document.getElementById('redCircle').src = "Assets/redCircle.svg";
+
+                proficiency = 3;
+            }
+        }
+        function changeLanguage(a) {
+            if(a == 1) {
+                document.getElementById('field').style.borderColor = "rgba(209, 102, 102, 0.6)";
+                document.getElementById('languageWord').innerHTML = "Spanish";
+
+                language = 1;
+            } else if (a == 2) {
+                document.getElementById('field').style.borderColor = "rgba(53, 124, 237, 0.6)";
+                document.getElementById('languageWord').innerHTML = "German";
+
+                language = 2;
+            } else if (a==3) {
+                document.getElementById('field').style.borderColor = "rgba(57, 170, 99, 0.6)";
+                document.getElementById('languageWord').innerHTML = "French";
+
+                language = 3;
+            }
+        }
+        function dialogueChange() {
+            document.getElementById('dialogueBox').src = "Assets/getStarted.svg";
+        }
+
+        function buttonPressed() {
+            if(wordIsSet == false) {
+                document.getElementById('meaningSpot').innerHTML = "???";
+                getWord();
+                wordIsSet = true;
+            } else {
+                getMeaning();
+                wordIsSet = false;
+            }
+        }
+
+        function getWord() {
+
+            var level = 5;
+
+            if (language == 1) {
+                if (proficiency == 1) {
+                    level = 1;
+                } else if (proficiency == 2) {
+                    level = 2;
+                } else if (proficiency == 3) {
+                    level = 3;
+                }
+            } else if (language == 2) {
+                if (proficiency == 1) {
+                    level = 4;
+                } else if (proficiency == 2) {
+                    level = 5;
+                } else if (proficiency == 3) {
+                    level = 6;
+                }
+            } else if (language == 3) {
+                if(proficiency == 1) {
+                    level = 7;
+                } else if (proficiency == 2) {
+                    level = 8;
+                } else if (proficiency == 3) {
+                    level = 9;
+                }
+            }
+
+            var inputFromPhp;
+
+                    var xhttp = new XMLHttpRequest();
+                        xhttp.onreadystatechange = function() {
+                            inputFromPhp = this.responseText;
+                        }
+                        xhttp.open("GET", "getword.php?q="+level,false);
+                        xhttp.send();
+
+                        setTimeout(function() {
+                            var stringLength = inputFromPhp.length;
+                            for(var i = 0; i < stringLength; i++) {
+                                if(inputFromPhp.substring(i,i+1) == "*") {
+                                    inputWord = inputFromPhp.substring(0,i);
+                                    inputMeaning = inputFromPhp.substring(i+1,stringLength);
+                                }
+                            }
+                        },50);
+
+                        document.getElementById('wordSpot').style.opacity = 0;
+
+                        setTimeout(function() {
+                            document.getElementById('wordSpot').innerHTML = inputWord;
+                            document.getElementById('wordSpot').style.opacity = 1;
+                        },500);
+        }
+
+        function getMeaning() {
+            document.getElementById('meaningSpot').innerHTML = inputMeaning;
+        }
+
+    </script>
+</body>
+</html>

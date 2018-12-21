@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="400" height="300" viewBox="0, 0, 200, 150">
+  <defs>
+    <clipPath id="Clip_1">
+      <path d="M9.733,2.948 L190.267,2.948 L190.267,140.965 L9.733,140.965 z M178.267,7.948 L21.733,7.948 C17.867,7.948 14.733,11.082 14.733,14.948 L14.733,105.861 C14.733,109.727 17.867,112.861 21.733,112.861 L132.349,112.861 L160.936,135.965 L163.207,112.861 L178.267,112.861 C182.133,112.861 185.267,109.727 185.267,105.861 L185.267,14.948 C185.267,11.082 182.133,7.948 178.267,7.948 z"/>
+    </clipPath>
+    <filter id="Shadow_2">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1"/>
+      <feOffset dx="2" dy="2" result="offsetblur"/>
+      <feFlood flood-color="#000000"/>
+      <feComposite in2="offsetblur" operator="in"/>
+    </filter>
+  </defs>
+  <g id="Layer_1">
+    <g>
+      <path d="M178.267,7.948 C182.133,7.948 185.267,11.082 185.267,14.948 L185.267,105.861 C185.267,109.727 182.133,112.861 178.267,112.861 L163.207,112.861 L160.936,135.965 L132.349,112.861 L21.733,112.861 C17.867,112.861 14.733,109.727 14.733,105.861 L14.733,14.948 C14.733,11.082 17.867,7.948 21.733,7.948 L178.267,7.948 z" clip-path="url(#Clip_1)" filter="url(#Shadow_2)" fill="rgba(0,0,0,0.2)"/>
+      <path d="M178.267,7.948 C182.133,7.948 185.267,11.082 185.267,14.948 L185.267,105.861 C185.267,109.727 182.133,112.861 178.267,112.861 L163.207,112.861 L160.936,135.965 L132.349,112.861 L21.733,112.861 C17.867,112.861 14.733,109.727 14.733,105.861 L14.733,14.948 C14.733,11.082 17.867,7.948 21.733,7.948 L178.267,7.948 z" fill="#357DED"/>
+    </g>
+    <text transform="matrix(1, 0, 0, 1, 100, 59.642)">
+      <tspan x="-66" y="-6.477" font-family="Ubuntu-Regular" font-size="25" fill="#FFFFFF">welcome to </tspan>
+      <tspan x="-42.2" y="22.523" font-family="Ubuntu-Regular" font-size="25" fill="#FFFFFF">wordly!</tspan>
+    </text>
+  </g>
+</svg>
